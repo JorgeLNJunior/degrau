@@ -3,8 +3,8 @@ export interface Profile {
   location: string
   phone: string
   email: string
-  linkedin: string
-  portfolio: string
+  linkedin?: string
+  portfolio?: string
   summary: string
 }
 
