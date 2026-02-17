@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
+import { vMaska } from 'maska/vue'
 import { toast } from 'vue-sonner'
 import { z } from 'zod'
 
@@ -20,7 +21,7 @@ import type { Profile } from '@/types/resume.types'
 const profileSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
   location: z.string().min(1, 'Localização é obrigatória'),
-  phone: z.string().min(1, 'Telefone é obrigatório'),
+  phone: z.string().length(15, 'Telefone deve ter 11 dígitos'), // 15 taking into account the mask
   email: z.string().email('Endereço de e-mail inválido'),
   linkedin: z.string().url('Endereço do LinkedIn inválido').optional().or(z.literal('')),
   portfolio: z.string().url('URL inválida').optional().or(z.literal('')),
@@ -106,6 +107,7 @@ const form = useForm({
                   placeholder="(00) 00000-0000"
                   @blur="field.handleBlur"
                   @input="field.handleChange($event.target.value)"
+                  v-maska="'(##) #####-####'"
                 />
                 <FieldError v-if="!field.state.meta.isValid" :errors="field.state.meta.errors" />
               </Field>
