@@ -26,3 +26,10 @@ export interface Education {
   institution: string
   year: number
 }
+
+export interface Resume {
+  profile: Profile
+  experience: Experience[]
+  skills: Skills
+  education: Education[]
+}
