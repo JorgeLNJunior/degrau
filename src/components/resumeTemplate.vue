@@ -53,7 +53,7 @@ const education: Education[] = reactive([
 </script>
 
 <template>
-  <div class="bg-gray-100 min-h-screen p-8 no-print-bg">
+  <div class="bg-gray-100 min-h-screen p-6">
     <main
       id="resume-paper"
       class="max-w-4xl mx-auto bg-white p-12 shadow-2xl print:shadow-none print:p-0"
