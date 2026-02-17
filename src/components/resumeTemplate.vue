@@ -50,23 +50,10 @@ const education: Education[] = reactive([
     year: 2018,
   },
 ])
-
-const printResume = () => {
-  window.print()
-}
 </script>
 
 <template>
   <div class="bg-gray-100 min-h-screen p-8 no-print-bg">
-    <div class="max-w-4xl mx-auto mb-6 flex justify-end">
-      <button
-        @click="printResume"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md transition-all print:hidden"
-      >
-        Baixar PDF / Imprimir
-      </button>
-    </div>
-
     <main
       id="resume-paper"
       class="max-w-4xl mx-auto bg-white p-12 shadow-2xl print:shadow-none print:p-0"
