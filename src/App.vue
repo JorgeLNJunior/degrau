@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import ResumeTemplate from './components/resumeTemplate.vue'
+import { Toaster } from './components/ui/sonner'
 </script>
 
 <template>
-  <ResumeTemplate />
+  <main>
+    <RouterView />
+  </main>
+  <Toaster />
 </template>
-
-<style scoped></style>
