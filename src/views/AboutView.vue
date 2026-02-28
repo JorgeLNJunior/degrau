@@ -5,10 +5,10 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 <template>
   <ScrollArea class="h-full">
     <div class="container mx-auto py-10 px-4 max-w-2xl">
-      <h1 class="text-3xl font-bold mb-6">Sobre o Degrau</h1>
+      <h1 class="text-3xl font-bold mb-6">Sobre o vaggo</h1>
       <div class="space-y-6 text-lg">
         <p class="text-muted-foreground">
-          O <strong>Degrau</strong> é uma ferramenta open-source desenvolvida para ajudar
+          O <strong>vaggo</strong> é uma ferramenta open-source desenvolvida para ajudar
           profissionais a criarem currículos otimizados para sistemas ATS (Applicant Tracking
           Systems).
         </p>

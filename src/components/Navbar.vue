@@ -16,8 +16,8 @@ import {
     <div class="container flex h-14 items-center px-4">
       <div class="mr-4 flex">
         <RouterLink class="mr-6 flex items-center space-x-2" to="/">
-          <img src="/logo.png" alt="Degrau Logo" class="h-8 w-8 object-contain" />
-          <span class="hidden font-bold sm:inline-block">Degrau</span>
+          <img src="/logo.png" alt="vaggo Logo" class="h-8 w-8 object-contain" />
+          <span class="hidden font-bold sm:inline-block">Vaggo</span>
         </RouterLink>
         <NavigationMenu>
           <NavigationMenuList>
