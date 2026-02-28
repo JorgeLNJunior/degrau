@@ -108,7 +108,13 @@ const resumeSchema = z.object({
     location: z.string().min(1, 'Localização é obrigatória'),
     phone: z.string().length(15, 'Telefone deve ter 11 dígitos'), // 15 taking into account the mask
     email: z.string().email('Endereço de e-mail inválido'),
-    linkedin: z.string().url('Endereço do LinkedIn inválido').or(z.literal('')),
+    linkedin: z
+      .string()
+      .regex(
+        /^https:\/\/(www\.)?linkedin\.com\/in\/.*$/,
+        'Deve ser uma URL válida do LinkedIn (https://linkedin.com/in/usuario)',
+      )
+      .or(z.literal('')),
     portfolio: z.string().url('URL inválida').or(z.literal('')),
     summary: z.string().min(10, 'Resumo deve ter pelo menos 10 caracteres'),
   }),
