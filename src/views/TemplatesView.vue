@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ResumeTemplate from '@/components/resumeTemplate.vue'
 import { ScrollArea } from '@/components/ui/scroll-area'
 </script>
 

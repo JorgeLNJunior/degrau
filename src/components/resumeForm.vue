@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
 import { vMaska } from 'maska/vue'
+import { watch } from 'vue'
 import { toast } from 'vue-sonner'
 import { z } from 'zod'
 
@@ -17,6 +18,7 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
+import { useResume } from '@/composables/useResume'
 import type { Resume } from '@/types/resume.types'
 
 // Local interface matching the form structure (textareas instead of arrays)
@@ -46,6 +48,58 @@ interface ResumeForm {
     institution: string
     year: number
   }[]
+}
+
+const { resume, setResume } = useResume()
+
+// Helper to transform Resume (global state) to ResumeForm (local form state)
+const transformResumeToForm = (data: Resume): ResumeForm => {
+  return {
+    profile: {
+      ...data.profile,
+      linkedin: data.profile.linkedin || '',
+      portfolio: data.profile.portfolio || '',
+    },
+    experience: data.experience.map((exp) => ({
+      ...exp,
+      bullets: exp.bullets.join('\n'),
+    })),
+    skills: {
+      tech: data.skills.tech.join(', '),
+      tools: data.skills.tools.join(', '),
+    },
+    education: data.education,
+  }
+}
+
+// Helper to transform ResumeForm (local form state) to Resume (global state)
+const transformFormToResume = (data: ResumeForm): Resume => {
+  return {
+    ...data,
+    experience: data.experience.map((exp) => ({
+      ...exp,
+      bullets: exp.bullets
+        .split('\n')
+        .map((line) => line.trim())
+        .filter((line) => line !== ''),
+    })),
+    skills: {
+      tech: data.skills.tech
+        .split(',')
+        .map((line) => line.trim())
+        .filter((line) => line !== ''),
+      tools: data.skills.tools
+        .split(',')
+        .map((line) => line.trim())
+        .filter((line) => line !== ''),
+    },
+    education: data.education,
+    profile: {
+      ...data.profile,
+      linkedin: data.profile.linkedin || undefined,
+      portfolio: data.profile.portfolio || undefined,
+    },
+  }
 }
 
 const resumeSchema = z.object({
@@ -84,59 +138,31 @@ const resumeSchema = z.object({
 })
 
 const form = useForm({
-  defaultValues: <ResumeForm>{
-    profile: {
-      email: '',
-      location: '',
-      name: '',
-      phone: '',
-      summary: '',
-      linkedin: '',
-      portfolio: '',
-    },
-    experience: [],
-    skills: {
-      tech: '',
-      tools: '',
-    },
-    education: [],
-  },
+  defaultValues: transformResumeToForm(resume),
   validators: {
     onChange: resumeSchema,
   },
   onSubmit: async ({ value }) => {
     // Transform form data to match Resume interface
-    const resumeData: Resume = {
-      ...value,
-      experience: value.experience.map((exp) => ({
-        ...exp,
-        bullets: exp.bullets
-          .split(',')
-          .map((line) => line.trim())
-          .filter((line) => line !== ''),
-      })),
-      skills: {
-        tech: value.skills.tech
-          .split(',')
-          .map((line) => line.trim())
-          .filter((line) => line !== ''),
-        tools: value.skills.tools
-          .split(',')
-          .map((line) => line.trim())
-          .filter((line) => line !== ''),
-      },
-      education: value.education,
-      profile: {
-        ...value.profile,
-        linkedin: value.profile.linkedin || undefined,
-        portfolio: value.profile.portfolio || undefined,
-      },
-    }
+    const resumeData = transformFormToResume(value)
 
     console.log('Transformed Resume Data:', resumeData)
     toast.success('Currículo gerado com sucesso!')
   },
 })
+
+// Use useStore to get reactive state
+const formState = form.useStore((state) => state.values)
+
+// Watch for form changes and update global state
+watch(
+  formState,
+  (newValues) => {
+    const resumeData = transformFormToResume(newValues as ResumeForm)
+    setResume(resumeData)
+  },
+  { deep: true },
+)
 </script>
 
 <template>
@@ -154,7 +180,6 @@ const form = useForm({
               <Input
                 :id="field.name"
                 :name="field.name"
-                :model-value="field.state.value"
                 placeholder="Marcos Silva"
                 @blur="field.handleBlur"
                 @input="field.handleChange($event.target.value)"
@@ -431,7 +456,7 @@ const form = useForm({
       <CardContent class="space-y-6">
         <form.Field name="education" mode="array">
           <template #default="{ field }">
-            <div v-for="(item, index) in field.state.value" :key="index" class="space-y-4">
+            <div v-for="(_, index) in field.state.value" :key="index" class="space-y-4">
               <div class="flex justify-between items-center">
                 <h4 class="text-sm font-semibold">Formação {{ index + 1 }}</h4>
                 <Button
