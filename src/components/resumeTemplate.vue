@@ -67,11 +67,13 @@ const education = computed(() => resume.education)
 
       <section class="mt-6">
         <h2 class="text-lg font-bold uppercase text-gray-800 border-b border-gray-300">
-          Habilidades Técnicas
+          Competências
         </h2>
         <div class="mt-2 text-sm text-gray-700">
-          <p><strong>Tecnologias:</strong> {{ skills.tech.join(', ') }}</p>
-          <p class="mt-1"><strong>Ferramentas e Outros:</strong> {{ skills.tools.join(', ') }}</p>
+          <p><strong>Habilidades Técnicas:</strong> {{ skills.hardSkills.join(', ') }}</p>
+          <p class="mt-1">
+            <strong>Habilidades Interpessoais:</strong> {{ skills.softSkills.join(', ') }}
+          </p>
         </div>
       </section>
 

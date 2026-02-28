@@ -17,8 +17,8 @@ export interface Experience {
 }
 
 export interface Skills {
-  tech: string[]
-  tools: string[]
+  hardSkills: string[]
+  softSkills: string[]
 }
 
 export interface Education {

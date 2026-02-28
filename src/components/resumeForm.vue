@@ -40,8 +40,8 @@ interface ResumeForm {
     bullets: string
   }[]
   skills: {
-    tech: string
-    tools: string
+    hardSkills: string
+    softSkills: string
   }
   education: {
     degree: string
@@ -65,8 +65,8 @@ const transformResumeToForm = (data: Resume): ResumeForm => {
       bullets: exp.bullets.join('\n'),
     })),
     skills: {
-      tech: data.skills.tech.join(', '),
-      tools: data.skills.tools.join(', '),
+      hardSkills: data.skills.hardSkills.join(', '),
+      softSkills: data.skills.softSkills.join(', '),
     },
     education: data.education,
   }
@@ -84,11 +84,11 @@ const transformFormToResume = (data: ResumeForm): Resume => {
         .filter((line) => line !== ''),
     })),
     skills: {
-      tech: data.skills.tech
+      hardSkills: data.skills.hardSkills
         .split(',')
         .map((line) => line.trim())
         .filter((line) => line !== ''),
-      tools: data.skills.tools
+      softSkills: data.skills.softSkills
         .split(',')
         .map((line) => line.trim())
         .filter((line) => line !== ''),
@@ -122,8 +122,8 @@ const resumeSchema = z.object({
     }),
   ),
   skills: z.object({
-    tech: z.string().or(z.literal('')),
-    tools: z.string().or(z.literal('')),
+    hardSkills: z.string().or(z.literal('')),
+    softSkills: z.string().or(z.literal('')),
   }),
   education: z.array(
     z.object({
@@ -557,15 +557,15 @@ watch(
         <CardDescription>Liste suas habilidades técnicas e ferramentas.</CardDescription>
       </CardHeader>
       <CardContent class="space-y-4">
-        <form.Field name="skills.tech">
+        <form.Field name="skills.hardSkills">
           <template #default="{ field }">
             <Field :data-invalid="!field.state.meta.isValid">
-              <FieldLabel :for="field.name">Tech Stack</FieldLabel>
+              <FieldLabel :for="field.name">Competências</FieldLabel>
               <Textarea
                 :id="field.name"
                 :name="field.name"
                 :model-value="field.state.value"
-                placeholder="JavaScript, TypeScript, Vue.js, Node.js..."
+                placeholder="Gestão de Projetos, Análise de Dados, Planejamento Estratégico..."
                 class="min-h-25"
                 @blur="field.handleBlur"
                 @input="field.handleChange($event.target.value)"
@@ -576,15 +576,15 @@ watch(
           </template>
         </form.Field>
 
-        <form.Field name="skills.tools">
+        <form.Field name="skills.softSkills">
           <template #default="{ field }">
             <Field :data-invalid="!field.state.meta.isValid">
-              <FieldLabel :for="field.name">Ferramentas</FieldLabel>
+              <FieldLabel :for="field.name">Habilidades Interpessoais</FieldLabel>
               <Textarea
                 :id="field.name"
                 :name="field.name"
                 :model-value="field.state.value"
-                placeholder="VS Code, Git, Docker, Jira..."
+                placeholder="Liderança, Comunicação, Trabalho em Equipe..."
                 class="min-h-25"
                 @blur="field.handleBlur"
                 @input="field.handleChange($event.target.value)"
