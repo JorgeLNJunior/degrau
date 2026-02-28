@@ -28,9 +28,13 @@ const education = computed(() => resume.education)
           <span class="hidden md:inline">•</span>
           <a :href="'mailto:' + profile.email" class="underline">{{ profile.email }}</a>
         </div>
-        <div class="mt-1 text-blue-800 text-sm font-medium">
-          <a :href="profile.linkedin" target="_blank">LinkedIn</a> |
-          <a :href="profile.portfolio" target="_blank">Portfolio</a>
+        <div
+          v-if="profile.linkedin || profile.portfolio"
+          class="mt-1 text-blue-800 text-sm font-medium"
+        >
+          <a v-if="profile.linkedin" :href="profile.linkedin" target="_blank">LinkedIn</a>
+          <span v-if="profile.linkedin && profile.portfolio"> | </span>
+          <a v-if="profile.portfolio" :href="profile.portfolio" target="_blank">Portfolio</a>
         </div>
       </header>
 
