@@ -19,6 +19,7 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
 import { useResume } from '@/composables/useResume'
+import { emitter, events } from '@/event'
 import type { Resume } from '@/types/resume.types'
 
 // Local interface matching the form structure (textareas instead of arrays)
@@ -153,6 +154,7 @@ const form = useForm({
     const resumeData = transformFormToResume(value)
 
     console.log('Transformed Resume Data:', resumeData)
+    emitter.emit(events.PRINT)
     toast.success('Currículo gerado com sucesso!')
   },
 })

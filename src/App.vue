@@ -5,12 +5,12 @@ import { Toaster } from './components/ui/sonner'
 
 <template>
   <div class="flex h-screen flex-col overflow-hidden">
-    <Navbar />
+    <Navbar class="print:hidden" />
     <main class="flex-1 overflow-hidden">
       <RouterView v-slot="{ Component }">
         <component :is="Component" class="h-full" />
       </RouterView>
     </main>
   </div>
-  <Toaster />
+  <Toaster class="print:hidden" />
 </template>
